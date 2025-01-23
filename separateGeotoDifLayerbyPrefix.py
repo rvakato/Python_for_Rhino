@@ -1,4 +1,9 @@
 import rhinoscriptsyntax as rs
+import random
+
+def random_color():
+    """Generate a random RGB color."""
+    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 def organize_objects_by_prefix():
     # Get all objects in the scene
@@ -19,8 +24,13 @@ def organize_objects_by_prefix():
         
         # Check if the layer with the prefix name exists, if not, create it
         if not rs.IsLayer(prefix):
-            rs.AddLayer(prefix)
+            rs.AddLayer(prefix)  # Create the new layer
             print("Created new layer: {}".format(prefix))
+        
+        # Assign a random color to the layer, even if it already exists
+        layer_color = random_color()  # Generate a random color
+        rs.LayerColor(prefix, layer_color)  # Set the layer color
+        print("Assigned random color {} to layer: {}".format(layer_color, prefix))
         
         # Assign the object to the corresponding layer
         rs.ObjectLayer(obj, prefix)
